@@ -1342,3 +1342,150 @@ body {
             repeat(2, 1fr);
     }
 }
+/* =====================================================
+   MESAJLARI TAMAMEN NORMALLEŞTİR
+===================================================== */
+
+.message-bubble,
+.message-bubble *,
+.message-content,
+.message-content * {
+    text-align: left !important;
+}
+
+
+/* Mesaj satırı */
+
+.message {
+    width: 100% !important;
+
+    display: flex !important;
+
+    margin: 0 0 16px 0 !important;
+
+    padding: 0 !important;
+}
+
+
+/* AI solda */
+
+.message.ai {
+    justify-content: flex-start !important;
+}
+
+
+/* Kullanıcı sağda */
+
+.message.user {
+    justify-content: flex-end !important;
+}
+
+
+/* İç kapsayıcı */
+
+.message-content {
+    display: flex !important;
+
+    width: auto !important;
+    max-width: 80% !important;
+
+    flex: 0 0 auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+}
+
+
+/* AI ikonundan sonraki alan */
+
+.message-content > div:last-child {
+    display: block !important;
+
+    width: auto !important;
+    max-width: 100% !important;
+
+    flex: 0 1 auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+/* ASIL BALON */
+
+.message-bubble {
+    display: block !important;
+
+    width: max-content !important;
+    max-width: 100% !important;
+
+    min-width: 0 !important;
+
+    margin: 0 !important;
+
+    padding: 8px 12px !important;
+
+    text-align: left !important;
+
+    white-space: pre-wrap !important;
+
+    overflow-wrap: anywhere !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* İçindeki elementler kesinlikle genişlemesin */
+
+.message-bubble > * {
+    width: auto !important;
+
+    max-width: 100% !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    text-align: left !important;
+}
+
+
+/* AI */
+
+.message.ai .message-content {
+    justify-content: flex-start !important;
+}
+
+
+/* USER */
+
+.message.user .message-content {
+    justify-content: flex-end !important;
+}
+
+.message.user .message-bubble {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+
+/* MOBİL */
+
+@media (max-width: 700px) {
+
+    .message-content {
+        max-width: 88% !important;
+    }
+
+    .message-bubble {
+        max-width: 100% !important;
+
+        padding: 8px 11px !important;
+
+        font-size: 13px !important;
+
+        text-align: left !important;
+    }
+}
