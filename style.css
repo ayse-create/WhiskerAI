@@ -600,10 +600,7 @@ body {
 
 
 /* =========================================================
-   ★ ASIL DÜZELTME ★
-   
-   message-content artık kendi içeriği kadar geniş.
-   Önceki problem burada oluşuyordu.
+   MESSAGE CONTENT
 ========================================================= */
 
 .message-content {
@@ -671,13 +668,11 @@ body {
 
 
 /* =========================================================
-   ★ METİN WRAPPER ★
-   
-   Bu da baloncuğun bütün satırı kaplamasını engelliyor.
+   METİN WRAPPER
 ========================================================= */
 
 .message-content > div:last-child {
-    display: block !important;
+    display: inline-block !important;
 
     width: fit-content !important;
 
@@ -695,14 +690,11 @@ body {
 
 
 /* =========================================================
-   ★ BALONCUK ★
-   
-   width: fit-content
-   = sadece içindeki yazı kadar genişler.
+   BALONCUK
 ========================================================= */
 
 .message-bubble {
-    display: block !important;
+    display: inline-block !important;
 
     width: fit-content !important;
 
@@ -731,9 +723,6 @@ body {
     word-break: normal;
 
     box-sizing: border-box;
-
-    /* KRİTİK */
-    flex: 0 0 auto !important;
 }
 
 
@@ -1206,6 +1195,8 @@ body {
     }
 
     .message-bubble {
+        display: inline-block !important;
+
         width: fit-content !important;
 
         max-width: 100% !important;
