@@ -130,6 +130,7 @@ body {
 .brand-icon img {
     width: 100%;
     height: 100%;
+    display: block;
     object-fit: cover;
 }
 
@@ -583,20 +584,24 @@ body {
 
 /* =========================================================
    MESSAGE CONTENT
-
-   BURASI ÖNEMLİ:
-   Artık message-content genişlemiyor.
 ========================================================= */
 
 .message-content {
     display: flex;
+
     align-items: flex-start;
 
-    width: auto;
+    /*
+       ÖNEMLİ:
+       Satırın tamamını kaplamıyor.
+    */
+    width: fit-content;
     max-width: 78%;
 
-    padding: 0;
+    flex: 0 0 auto;
+
     margin: 0;
+    padding: 0;
 
     gap: 8px;
 }
@@ -630,15 +635,24 @@ body {
 
 
 /* =========================================================
-   TEXT WRAPPER
-
-   ARTIK FLEX DEĞİL.
+   MESSAGE TEXT WRAPPER
+   Mevcut JS'in oluşturduğu:
+   
+   .message-content
+       └── div
+           └── .message-bubble
+   
+   yapısına göre.
 ========================================================= */
 
 .message-content > div:last-child {
-    width: auto;
+    width: fit-content;
+
+    max-width: 100%;
 
     min-width: 0;
+
+    flex: 0 1 auto;
 
     margin: 0;
     padding: 0;
@@ -646,26 +660,33 @@ body {
 
 
 /* =========================================================
-   ⭐ GERÇEK MESAJ BALONU ⭐
-
-   display: table = içeriğe göre küçülür.
+   ASIL BALONCUK
 ========================================================= */
 
 .message-bubble {
-    display: table;
+    /*
+       KISA MESAJ:
+       yalnızca kendi içeriği kadar.
 
-    width: auto;
+       UZUN MESAJ:
+       max-width'e kadar büyür.
+    */
+    display: block;
+
+    width: fit-content;
 
     max-width: 100%;
 
     min-width: 0;
 
     margin: 0;
+
     padding: 9px 13px;
 
     border-radius: 15px;
 
     font-size: 13px;
+
     line-height: 1.48;
 
     text-align: left;
@@ -675,8 +696,6 @@ body {
     overflow-wrap: anywhere;
 
     word-break: normal;
-
-    box-sizing: border-box;
 }
 
 
@@ -686,12 +705,17 @@ body {
 
 .message.user .message-bubble {
     margin-left: auto;
+    margin-right: 0;
 
-    background: rgba(255,255,255,.88);
+    background:
+        rgba(255,255,255,.88);
 
-    border: 1px solid rgba(255,255,255,.75);
+    border:
+        1px solid rgba(255,255,255,.75);
 
     border-bottom-right-radius: 5px;
+
+    color: var(--text);
 
     box-shadow:
         0 3px 13px rgba(40,60,60,.045);
@@ -703,13 +727,18 @@ body {
 ========================================================= */
 
 .message.ai .message-bubble {
+    margin-left: 0;
     margin-right: auto;
 
-    background: rgba(255,255,255,.60);
+    background:
+        rgba(255,255,255,.60);
 
-    border: 1px solid rgba(255,255,255,.58);
+    border:
+        1px solid rgba(255,255,255,.58);
 
     border-bottom-left-radius: 5px;
+
+    color: var(--text);
 
     box-shadow:
         0 3px 13px rgba(40,60,60,.035);
@@ -717,19 +746,16 @@ body {
 
 
 /* =========================================================
-   BALONCUĞUN İÇİNDEKİ HER ŞEY
-
-   Eğer JS <div>, <p> vs. ekliyorsa bunlar da
-   baloncuğu büyütmeyecek.
+   BALON İÇİ
 ========================================================= */
 
 .message-bubble p,
 .message-bubble div,
 .message-bubble span {
-    max-width: 100%;
-
     margin: 0;
     padding: 0;
+
+    max-width: 100%;
 
     text-align: left;
 }
@@ -791,6 +817,7 @@ body {
 }
 
 @keyframes typing {
+
     0%,
     60%,
     100% {
@@ -915,12 +942,17 @@ body {
 
 
 /* =========================================================
-   MOBILE SIDEBAR
+   SIDEBAR OVERLAY
 ========================================================= */
 
 .sidebar-overlay {
     display: none;
 }
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width:700px) {
 
@@ -958,7 +990,11 @@ body {
 
         z-index: 90;
 
-        background: rgba(20,40,40,.15);
+        background:
+            rgba(20,40,40,.15);
+
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
     }
 
 
@@ -1033,7 +1069,9 @@ body {
     }
 
 
-    /* MESSAGES */
+    /* =====================================================
+       MOBILE MESSAGES
+    ===================================================== */
 
     .messages {
         width: calc(100% - 20px);
@@ -1061,7 +1099,8 @@ body {
     }
 
     .message-bubble {
-        padding: 8px 11px;
+        padding:
+            8px 11px;
 
         font-size: 13px;
 
@@ -1153,7 +1192,8 @@ body {
     }
 
     .message-bubble {
-        padding: 8px 10px;
+        padding:
+            8px 10px;
 
         font-size: 12.5px;
     }
