@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#edf7f5">
 
     <title>Whisker AI</title>
 
@@ -11,153 +18,283 @@
 
 <body>
 
-    <div class="app">
+<div class="app">
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar" id="sidebar">
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
 
-            <div class="sidebar-top">
-                <div class="brand">
-                    <div class="brand-icon">🐱</div>
-                    <div>
-                        <div class="brand-name">Whisker AI</div>
-                        <div class="brand-subtitle">WhiskerHub AI</div>
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    <img src="1.png" alt="Whisker AI">
+                </div>
+
+                <div>
+                    <div class="brand-name">
+                        Whisker AI
+                    </div>
+
+                    <div class="brand-subtitle">
+                        WhiskerHub AI
                     </div>
                 </div>
 
-                <button class="close-sidebar" id="closeSidebar">×</button>
             </div>
 
-            <button class="new-chat" id="newChat">
-                <span>＋</span>
+            <button
+                class="close-sidebar"
+                id="closeSidebar"
+                aria-label="Menüyü kapat"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- YENİ SOHBET -->
+
+        <button
+            class="new-chat"
+            id="newChat"
+        >
+            <span class="plus">＋</span>
+            <span>Yeni sohbet</span>
+        </button>
+
+
+        <!-- SOHBETLER -->
+
+        <div class="chat-history">
+
+            <div class="history-title">
+                Sohbetler
+            </div>
+
+            <div id="chatList"></div>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="ai-status">
+                <span class="status-dot"></span>
+                Whisker AI
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+    <!-- =========================
+         ANA ALAN
+    ========================== -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                aria-label="Menüyü aç"
+            >
+                ☰
+            </button>
+
+
+            <div class="header-title">
+
+                <img
+                    src="1.png"
+                    class="header-avatar"
+                    alt="Whisker AI"
+                >
+
+                <div>
+
+                    <div class="header-name">
+                        Whisker AI
+                    </div>
+
+                    <div class="header-subtitle">
+                        WhiskerHub AI
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="header-new-chat"
+                id="headerNewChat"
+                aria-label="Yeni sohbet"
+            >
+                <span class="header-plus">＋</span>
                 <span>Yeni sohbet</span>
             </button>
 
-            <div class="chat-history">
-                <div class="history-title">Sohbetler</div>
-                <div id="chatList"></div>
-            </div>
+        </header>
 
-            <div class="sidebar-bottom">
-                <div class="ai-status">
-                    <span class="status-dot"></span>
-                    <span>Whisker AI aktif</span>
-                </div>
-            </div>
 
-        </aside>
+        <!-- =========================
+             CHAT ALANI
+        ========================== -->
 
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <section
+            class="chat-area"
+            id="chatArea"
+        >
 
-        <!-- MAIN -->
-        <main class="main">
 
-            <!-- HEADER -->
-            <header class="header">
+            <!-- KARŞILAMA -->
 
-                <button class="menu-button" id="menuButton">
-                    ☰
-                </button>
+            <div
+                class="welcome"
+                id="welcome"
+            >
 
-                <div class="header-title">
-                    <div class="header-cat">🐱</div>
-                    <div>
-                        <div class="header-name">Whisker AI</div>
-                        <div class="header-status">
-                            <span class="status-dot"></span>
-                            Çevrim içi
-                        </div>
-                    </div>
-                </div>
+                <div class="welcome-icon">
 
-                <button class="header-new-chat" id="headerNewChat">
-                    ＋
-                    <span>Yeni sohbet</span>
-                </button>
-
-            </header>
-
-            <!-- CHAT -->
-            <section class="chat-area" id="chatArea">
-
-                <!-- EMPTY STATE -->
-                <div class="welcome" id="welcome">
-
-                    <div class="welcome-icon">
-                        🐱
-                    </div>
-
-                    <h1>Merhaba, ben Whisker AI!</h1>
-
-                    <p>
-                        WhiskerHub hakkında merak ettiklerini sorabilir,
-                        benimle sohbet edebilirsin.
-                    </p>
-
-                    <div class="suggestions">
-
-                        <button class="suggestion" data-message="WhiskerHub nedir?">
-                            <span>🌎</span>
-                            <span>WhiskerHub nedir?</span>
-                        </button>
-
-                        <button class="suggestion" data-message="Merhaba!">
-                            <span>👋</span>
-                            <span>Merhaba!</span>
-                        </button>
-
-                        <button class="suggestion" data-message="WhiskerSearch nedir?">
-                            <span>🔎</span>
-                            <span>WhiskerSearch nedir?</span>
-                        </button>
-
-                        <button class="suggestion" data-message="Bana yardımcı olabilir misin?">
-                            <span>💡</span>
-                            <span>Bana yardımcı olabilir misin?</span>
-                        </button>
-
-                    </div>
+                    <img
+                        src="1.png"
+                        alt="Whisker AI"
+                    >
 
                 </div>
 
-                <!-- MESSAGES -->
-                <div class="messages" id="messages"></div>
 
-            </section>
+                <h1>
+                    Merhaba, ben Whisker AI!
+                </h1>
 
-            <!-- INPUT -->
-            <div class="input-container">
 
-                <div class="input-box">
+                <p>
+                    WhiskerHub hakkında merak ettiklerini
+                    sorabilir veya benimle sohbet edebilirsin.
+                </p>
 
-                    <textarea
-                        id="messageInput"
-                        placeholder="Whisker AI'ye bir şey sor..."
-                        rows="1"
-                        maxlength="2000"
-                    ></textarea>
 
-                    <button id="sendButton" class="send-button" aria-label="Gönder">
-                        <span>➤</span>
+                <div class="suggestions">
+
+
+                    <button
+                        class="suggestion"
+                        data-message="WhiskerHub nedir?"
+                    >
+                        <span class="suggestion-icon">🌎</span>
+                        <span>WhiskerHub nedir?</span>
                     </button>
 
-                </div>
 
-                <div class="input-info">
-                    Whisker AI, bilgi tabanındaki verilere göre cevap verir.
+                    <button
+                        class="suggestion"
+                        data-message="Merhaba!"
+                    >
+                        <span class="suggestion-icon">👋</span>
+                        <span>Merhaba!</span>
+                    </button>
+
+
+                    <button
+                        class="suggestion"
+                        data-message="WhiskerSearch nedir?"
+                    >
+                        <span class="suggestion-icon">🔎</span>
+                        <span>WhiskerSearch nedir?</span>
+                    </button>
+
+
+                    <button
+                        class="suggestion"
+                        data-message="Bana yardımcı olabilir misin?"
+                    >
+                        <span class="suggestion-icon">💡</span>
+                        <span>Bana yardımcı olabilir misin?</span>
+                    </button>
+
+
                 </div>
 
             </div>
 
-        </main>
 
-    </div>
+            <!-- MESAJLAR -->
 
-    <!-- ÖNCE VERİ -->
-    <script src="whisker_ai_data.js"></script>
+            <div
+                class="messages"
+                id="messages"
+            ></div>
 
-    <!-- SONRA ARAYÜZ -->
-    <script src="script.js"></script>
+
+        </section>
+
+
+        <!-- =========================
+             INPUT
+        ========================== -->
+
+        <div class="input-container">
+
+            <div class="input-box">
+
+                <textarea
+                    id="messageInput"
+                    rows="1"
+                    maxlength="2000"
+                    autocomplete="off"
+                    spellcheck="true"
+                    placeholder="Whisker AI'ye bir şey sor..."
+                ></textarea>
+
+
+                <button
+                    id="sendButton"
+                    class="send-button"
+                    aria-label="Mesaj gönder"
+                >
+                    <span>➤</span>
+                </button>
+
+            </div>
+
+
+            <div class="input-info">
+                Whisker AI, bilgi tabanındaki verilere göre cevap verir.
+            </div>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<!--
+    ÖNCE VERİ DOSYASI
+    SONRA ARAYÜZ JS
+-->
+
+<script src="whisker_ai_data.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
