@@ -1,7 +1,5 @@
 /* =========================================================
    WHISKER AI
-   Interface + Chat System
-   Data source: whisker_ai_data.js
    ========================================================= */
 
 const STORAGE_KEY = "whiskerAI_chats";
@@ -12,71 +10,104 @@ let isGenerating = false;
 
 
 /* =========================================================
-   ELEMENTS
+   ELEMENTLER
    ========================================================= */
 
-const chatArea = document.getElementById("chatArea");
-const messagesElement = document.getElementById("messages");
-const welcomeElement = document.getElementById("welcome");
+const chatArea =
+    document.getElementById("chatArea");
 
-const messageInput = document.getElementById("messageInput");
-const sendButton = document.getElementById("sendButton");
+const messagesElement =
+    document.getElementById("messages");
 
-const chatList = document.getElementById("chatList");
+const welcomeElement =
+    document.getElementById("welcome");
 
-const newChatButton = document.getElementById("newChat");
-const headerNewChat = document.getElementById("headerNewChat");
+const messageInput =
+    document.getElementById("messageInput");
 
-const menuButton = document.getElementById("menuButton");
-const closeSidebar = document.getElementById("closeSidebar");
+const sendButton =
+    document.getElementById("sendButton");
 
-const sidebar = document.getElementById("sidebar");
-const sidebarOverlay = document.getElementById("sidebarOverlay");
+const chatList =
+    document.getElementById("chatList");
+
+const newChatButton =
+    document.getElementById("newChat");
+
+const headerNewChat =
+    document.getElementById("headerNewChat");
+
+const menuButton =
+    document.getElementById("menuButton");
+
+const closeSidebar =
+    document.getElementById("closeSidebar");
+
+const sidebar =
+    document.getElementById("sidebar");
+
+const sidebarOverlay =
+    document.getElementById("sidebarOverlay");
 
 
 /* =========================================================
-   INITIALIZATION
+   BAŞLAT
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    loadChats();
+        loadChats();
 
-    if (chats.length === 0) {
-        createNewChat();
-    } else {
-        currentChatId = chats[0].id;
-        renderChatList();
-        renderCurrentChat();
+        if (chats.length === 0) {
+
+            createNewChat();
+
+        } else {
+
+            currentChatId =
+                chats[0].id;
+
+            renderChatList();
+
+            renderCurrentChat();
+        }
+
+        setupEvents();
     }
-
-    setupEvents();
-
-});
+);
 
 
 /* =========================================================
-   CHAT STORAGE
+   STORAGE
    ========================================================= */
 
 function loadChats() {
 
     try {
 
-        const saved = localStorage.getItem(STORAGE_KEY);
+        const saved =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
 
         if (saved) {
-            chats = JSON.parse(saved);
+
+            chats =
+                JSON.parse(saved);
+
         }
 
     } catch (error) {
 
-        console.error("Sohbetler yüklenemedi:", error);
+        console.error(
+            "Sohbetler yüklenemedi:",
+            error
+        );
 
         chats = [];
-
     }
-
 }
 
 
@@ -91,15 +122,16 @@ function saveChats() {
 
     } catch (error) {
 
-        console.error("Sohbetler kaydedilemedi:", error);
-
+        console.error(
+            "Sohbetler kaydedilemedi:",
+            error
+        );
     }
-
 }
 
 
 /* =========================================================
-   CREATE CHAT
+   YENİ SOHBET
    ========================================================= */
 
 function createNewChat() {
@@ -107,83 +139,84 @@ function createNewChat() {
     const chat = {
 
         id:
-            Date.now().toString() +
-            Math.random().toString(36).slice(2),
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2),
 
-        title: "Yeni sohbet",
+        title:
+            "Yeni sohbet",
 
         messages: [],
 
-        createdAt: Date.now(),
+        createdAt:
+            Date.now(),
 
-        updatedAt: Date.now()
-
+        updatedAt:
+            Date.now()
     };
 
     chats.unshift(chat);
 
-    currentChatId = chat.id;
+    currentChatId =
+        chat.id;
 
     saveChats();
 
     renderChatList();
+
     renderCurrentChat();
 
     closeMobileSidebar();
 
-    setTimeout(() => {
-        messageInput.focus();
-    }, 100);
-
+    setTimeout(
+        () => messageInput.focus(),
+        100
+    );
 }
 
 
 /* =========================================================
-   GET CURRENT CHAT
+   AKTİF SOHBET
    ========================================================= */
 
 function getCurrentChat() {
 
     return chats.find(
-        chat => chat.id === currentChatId
+        chat =>
+            chat.id ===
+            currentChatId
     );
-
 }
 
 
 /* =========================================================
-   RENDER CHAT LIST
+   SOHBET LİSTESİ
    ========================================================= */
 
 function renderChatList() {
 
     chatList.innerHTML = "";
 
-    if (chats.length === 0) {
-
-        chatList.innerHTML = `
-            <div style="
-                padding: 15px 10px;
-                color: #89999a;
-                font-size: 11px;
-            ">
-                Henüz sohbet yok.
-            </div>
-        `;
-
-        return;
-    }
-
     chats.forEach(chat => {
 
-        const item = document.createElement("div");
+        const item =
+            document.createElement("div");
 
         item.className =
             "chat-item" +
-            (chat.id === currentChatId ? " active" : "");
+            (
+                chat.id === currentChatId
+                    ? " active"
+                    : ""
+            );
 
         item.innerHTML = `
-            <span class="chat-item-icon">💬</span>
+
+            <span class="chat-item-icon">
+                💬
+            </span>
 
             <span class="chat-item-title">
                 ${escapeHTML(chat.title)}
@@ -191,34 +224,44 @@ function renderChatList() {
 
             <button
                 class="delete-chat"
-                title="Sohbeti sil"
                 data-delete="${chat.id}"
+                aria-label="Sohbeti sil"
             >
                 ×
             </button>
         `;
 
-        item.addEventListener("click", event => {
 
-            if (
-                event.target.closest(".delete-chat")
-            ) {
-                return;
+        item.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target.closest(
+                        ".delete-chat"
+                    )
+                ) {
+                    return;
+                }
+
+                currentChatId =
+                    chat.id;
+
+                saveChats();
+
+                renderChatList();
+
+                renderCurrentChat();
+
+                closeMobileSidebar();
             }
+        );
 
-            currentChatId = chat.id;
-
-            saveChats();
-
-            renderChatList();
-            renderCurrentChat();
-
-            closeMobileSidebar();
-
-        });
 
         const deleteButton =
-            item.querySelector(".delete-chat");
+            item.querySelector(
+                ".delete-chat"
+            );
 
         deleteButton.addEventListener(
             "click",
@@ -227,91 +270,103 @@ function renderChatList() {
                 event.stopPropagation();
 
                 deleteChat(chat.id);
-
             }
         );
 
+
         chatList.appendChild(item);
-
     });
-
 }
 
 
 /* =========================================================
-   DELETE CHAT
+   SOHBET SİL
    ========================================================= */
 
 function deleteChat(id) {
 
-    chats = chats.filter(
-        chat => chat.id !== id
-    );
+    chats =
+        chats.filter(
+            chat =>
+                chat.id !== id
+        );
 
-    if (currentChatId === id) {
+
+    if (
+        currentChatId === id
+    ) {
 
         if (chats.length > 0) {
 
-            currentChatId = chats[0].id;
+            currentChatId =
+                chats[0].id;
 
         } else {
 
             createNewChat();
+
             return;
-
         }
-
     }
+
 
     saveChats();
 
     renderChatList();
-    renderCurrentChat();
 
+    renderCurrentChat();
 }
 
 
 /* =========================================================
-   RENDER CURRENT CHAT
+   SOHBETİ GÖSTER
    ========================================================= */
 
 function renderCurrentChat() {
 
-    const chat = getCurrentChat();
+    const chat =
+        getCurrentChat();
 
     if (!chat) {
         return;
     }
 
+
     messagesElement.innerHTML = "";
 
-    if (chat.messages.length === 0) {
 
-        welcomeElement.style.display = "block";
+    if (
+        chat.messages.length === 0
+    ) {
+
+        welcomeElement.style.display =
+            "block";
 
     } else {
 
-        welcomeElement.style.display = "none";
+        welcomeElement.style.display =
+            "none";
 
-        chat.messages.forEach(message => {
 
-            renderMessage(
-                message.role,
-                message.content,
-                false
-            );
+        chat.messages.forEach(
+            message => {
 
-        });
-
+                renderMessage(
+                    message.role,
+                    message.content,
+                    false
+                );
+            }
+        );
     }
 
-    scrollToBottom();
 
+    scrollToBottom();
 }
 
 
 /* =========================================================
-   RENDER MESSAGE
+   MESAJ GÖSTER
    ========================================================= */
 
 function renderMessage(
@@ -320,32 +375,50 @@ function renderMessage(
     animate = true
 ) {
 
-    const message = document.createElement("div");
+    const message =
+        document.createElement("div");
 
     message.className =
         "message " +
-        (role === "user" ? "user" : "ai");
+        (
+            role === "user"
+                ? "user"
+                : "ai"
+        );
+
 
     if (role === "user") {
 
         message.innerHTML = `
+
             <div class="message-content">
+
                 <div>
+
                     <div class="message-bubble">
                         ${escapeHTML(content)}
                     </div>
+
                 </div>
+
             </div>
         `;
 
     } else {
 
         message.innerHTML = `
+
             <div class="message-content">
 
                 <div class="ai-avatar">
-                    🐱
+
+                    <img
+                        src="1.png"
+                        alt="Whisker AI"
+                    >
+
                 </div>
+
 
                 <div>
 
@@ -353,10 +426,13 @@ function renderMessage(
                         ${formatAIText(content)}
                     </div>
 
+
                     <div class="message-actions">
+
                         <button class="copy-button">
                             Kopyala
                         </button>
+
                     </div>
 
                 </div>
@@ -364,87 +440,137 @@ function renderMessage(
             </div>
         `;
 
+
         const copyButton =
-            message.querySelector(".copy-button");
+            message.querySelector(
+                ".copy-button"
+            );
+
 
         copyButton.addEventListener(
             "click",
-            () => {
+            async () => {
 
-                navigator.clipboard.writeText(content);
+                try {
 
-                copyButton.textContent = "Kopyalandı ✓";
+                    await navigator.clipboard
+                        .writeText(content);
 
-                setTimeout(() => {
-                    copyButton.textContent = "Kopyala";
-                }, 1500);
+                    copyButton.textContent =
+                        "Kopyalandı ✓";
 
+                    setTimeout(
+                        () => {
+                            copyButton.textContent =
+                                "Kopyala";
+                        },
+                        1500
+                    );
+
+                } catch {
+
+                    copyButton.textContent =
+                        "Kopyalanamadı";
+                }
             }
         );
-
     }
 
-    messagesElement.appendChild(message);
+
+    messagesElement.appendChild(
+        message
+    );
+
 
     if (!animate) {
-        message.style.animation = "none";
-    }
 
+        message.style.animation =
+            "none";
+    }
 }
 
 
 /* =========================================================
-   SEND MESSAGE
+   MESAJ GÖNDER
    ========================================================= */
 
-async function sendMessage(text = null) {
+async function sendMessage(
+    customText = null
+) {
 
     if (isGenerating) {
         return;
     }
 
+
     const message =
-        text !== null
-            ? text.trim()
+        customText !== null
+            ? customText.trim()
             : messageInput.value.trim();
+
 
     if (!message) {
         return;
     }
 
-    const chat = getCurrentChat();
+
+    const chat =
+        getCurrentChat();
+
 
     if (!chat) {
         return;
     }
 
+
     isGenerating = true;
 
-    welcomeElement.style.display = "none";
 
-    /* USER MESSAGE */
+    welcomeElement.style.display =
+        "none";
+
+
+    /* USER */
 
     chat.messages.push({
-        role: "user",
-        content: message,
-        time: Date.now()
+
+        role:
+            "user",
+
+        content:
+            message,
+
+        time:
+            Date.now()
     });
 
+
     if (
-        chat.title === "Yeni sohbet"
+        chat.title ===
+        "Yeni sohbet"
     ) {
 
-        chat.title = createChatTitle(message);
-
+        chat.title =
+            createChatTitle(message);
     }
 
-    chat.updatedAt = Date.now();
+
+    chat.updatedAt =
+        Date.now();
+
 
     saveChats();
 
-    renderMessage("user", message);
 
-    messageInput.value = "";
+    renderMessage(
+        "user",
+        message
+    );
+
+
+    messageInput.value =
+        "";
+
     autoResize();
 
     renderChatList();
@@ -454,171 +580,203 @@ async function sendMessage(text = null) {
 
     /* TYPING */
 
-    const typingElement =
+    const typing =
         createTypingIndicator();
 
     messagesElement.appendChild(
-        typingElement
+        typing
     );
 
     scrollToBottom();
 
 
-    /* AI RESPONSE */
+    /* CEVAP */
 
-    const delay =
-        500 +
-        Math.random() * 700;
+    await sleep(
+        450 +
+        Math.random() * 650
+    );
 
-    await sleep(delay);
 
-    typingElement.remove();
+    typing.remove();
+
 
     const answer =
         getAIResponse(message);
+
 
     renderMessage(
         "ai",
         answer
     );
 
+
     chat.messages.push({
-        role: "assistant",
-        content: answer,
-        time: Date.now()
+
+        role:
+            "assistant",
+
+        content:
+            answer,
+
+        time:
+            Date.now()
     });
 
-    chat.updatedAt = Date.now();
+
+    chat.updatedAt =
+        Date.now();
+
 
     saveChats();
+
 
     isGenerating = false;
 
     scrollToBottom();
-
 }
 
 
 /* =========================================================
-   AI RESPONSE
+   AI CEVABI
    ========================================================= */
 
-function getAIResponse(userMessage) {
+function getAIResponse(
+    userMessage
+) {
 
     const normalized =
-        normalizeText(userMessage);
-
-
-    /* -----------------------------------------
-       DAILY / CASUAL CONVERSATION
-       ----------------------------------------- */
-
-    const casualResponse =
-        getCasualResponse(normalized);
-
-    if (casualResponse) {
-        return casualResponse;
-    }
-
-
-    /* -----------------------------------------
-       DATASET SEARCH
-       ----------------------------------------- */
-
-    if (
-        typeof whiskerAIData === "undefined" ||
-        !Array.isArray(whiskerAIData)
-    ) {
-
-        console.error(
-            "whiskerAIData bulunamadı."
+        normalizeText(
+            userMessage
         );
 
-        return "Üzgünüm 🐱 Bilgi tabanına şu anda erişemiyorum.";
 
+    /* GÜNLÜK KONUŞMA */
+
+    const casual =
+        getCasualResponse(
+            normalized
+        );
+
+
+    if (casual) {
+        return casual;
     }
 
 
-    const result =
-        findBestMatch(userMessage);
+    /* VERİ DOSYASI */
 
+    if (
+        typeof whiskerAIData ===
+            "undefined" ||
+        !Array.isArray(
+            whiskerAIData
+        )
+    ) {
 
-    if (result) {
-
-        return result.output;
-
+        return (
+            "Whisker AI bilgi tabanına " +
+            "şu anda erişemiyor. 🐱"
+        );
     }
 
 
-    /* -----------------------------------------
-       FALLBACK
-       ----------------------------------------- */
+    const match =
+        findBestMatch(
+            userMessage
+        );
+
+
+    if (match) {
+
+        return match.output;
+    }
+
 
     return getFallbackResponse();
-
 }
 
 
 /* =========================================================
-   BEST MATCH
+   EN UYGUN EŞLEŞME
    ========================================================= */
 
-function findBestMatch(userMessage) {
+function findBestMatch(
+    userMessage
+) {
 
     const userWords =
         getMeaningfulWords(
-            normalizeText(userMessage)
+            normalizeText(
+                userMessage
+            )
         );
 
-    if (userWords.length === 0) {
+
+    if (
+        userWords.length === 0
+    ) {
         return null;
     }
 
+
     let bestItem = null;
+
     let bestScore = 0;
 
+
     for (
-        const item of whiskerAIData
+        const item
+        of whiskerAIData
     ) {
 
         if (
             !item ||
-            typeof item.instruction !== "string" ||
-            typeof item.output !== "string"
+            typeof item.instruction !==
+                "string" ||
+            typeof item.output !==
+                "string"
         ) {
+
             continue;
         }
+
 
         const instruction =
             normalizeText(
                 item.instruction
             );
 
+
         const instructionWords =
             getMeaningfulWords(
                 instruction
             );
 
+
         if (
             instructionWords.length === 0
         ) {
+
             continue;
         }
 
 
-        /* WORD MATCH */
-
         let matchedWords = 0;
 
-        userWords.forEach(word => {
 
-            if (
-                instructionWords.includes(word)
-            ) {
-                matchedWords++;
+        userWords.forEach(
+            word => {
+
+                if (
+                    instructionWords
+                        .includes(word)
+                ) {
+
+                    matchedWords++;
+                }
             }
-
-        });
+        );
 
 
         let score =
@@ -629,83 +787,102 @@ function findBestMatch(userMessage) {
             );
 
 
-        /* EXACT PHRASE */
+        /* TAM CÜMLE */
+
+        if (
+            instruction ===
+            normalizeText(
+                userMessage
+            )
+        ) {
+
+            score += 2;
+        }
+
+
+        /* İÇEREN CÜMLE */
 
         if (
             instruction.includes(
-                normalizeText(userMessage)
+                normalizeText(
+                    userMessage
+                )
             )
         ) {
 
             score += 1;
-
         }
 
 
-        /* IMPORTANT WORDS */
+        /* UZUN ANLAMLI KELİMELER */
 
-        userWords.forEach(word => {
+        userWords.forEach(
+            word => {
 
-            if (
-                word.length >= 5 &&
-                instruction.includes(word)
-            ) {
+                if (
+                    word.length >= 5 &&
+                    instruction.includes(
+                        word
+                    )
+                ) {
 
-                score += 0.08;
-
+                    score += .08;
+                }
             }
+        );
 
-        });
 
+        if (
+            score > bestScore
+        ) {
 
-        if (score > bestScore) {
+            bestScore =
+                score;
 
-            bestScore = score;
-
-            bestItem = item;
-
+            bestItem =
+                item;
         }
-
     }
 
 
-    /*
-       Minimum threshold.
+    if (
+        bestScore < .25
+    ) {
 
-       Böylece tamamen alakasız soruların
-       rastgele bir cevaba eşleşmesi önlenir.
-    */
-
-    if (bestScore < 0.25) {
         return null;
     }
 
-    return bestItem;
 
+    return bestItem;
 }
 
 
 /* =========================================================
-   CASUAL RESPONSES
+   GÜNLÜK SELAMLAŞMA
    ========================================================= */
 
-function getCasualResponse(text) {
+function getCasualResponse(
+    text
+) {
 
     const greetings = [
+
         "merhaba",
         "selam",
         "hey",
         "hello",
         "hi",
         "sa",
-        "s.a",
+        "s a",
         "günaydın",
         "iyi sabahlar",
         "iyi akşamlar",
         "iyi geceler"
     ];
 
+
     const howAreYou = [
+
         "nasılsın",
         "nasilsin",
         "iyi misin",
@@ -715,7 +892,9 @@ function getCasualResponse(text) {
         "nasıl gidiyo"
     ];
 
+
     const thanks = [
+
         "teşekkürler",
         "teşekkür ederim",
         "sağ ol",
@@ -724,7 +903,9 @@ function getCasualResponse(text) {
         "çok teşekkürler"
     ];
 
+
     const goodbye = [
+
         "görüşürüz",
         "gorusuruz",
         "hoşça kal",
@@ -734,68 +915,109 @@ function getCasualResponse(text) {
         "bb"
     ];
 
+
     if (
-        containsPhrase(text, greetings)
+        containsPhrase(
+            text,
+            greetings
+        )
     ) {
 
         if (
-            text.includes("günaydın") ||
-            text.includes("iyi sabahlar")
+            text.includes(
+                "günaydın"
+            )
         ) {
-            return "Günaydın! ☀️🐱 Bugün WhiskerHub'da neler keşfedeceğiz?";
+
+            return (
+                "Günaydın! ☀️ " +
+                "Bugün sana nasıl yardımcı olabilirim?"
+            );
         }
+
 
         if (
-            text.includes("iyi akşamlar")
+            text.includes(
+                "iyi akşamlar"
+            )
         ) {
-            return "İyi akşamlar! 🌙🐱 Nasıl yardımcı olabilirim?";
+
+            return (
+                "İyi akşamlar! 🌙 " +
+                "Nasıl yardımcı olabilirim?"
+            );
         }
+
 
         if (
-            text.includes("iyi geceler")
+            text.includes(
+                "iyi geceler"
+            )
         ) {
-            return "İyi geceler! 🌙🐱 Umarım güzel bir gün geçirmişsindir.";
+
+            return (
+                "İyi geceler! 🌙 " +
+                "Umarım güzel bir gün geçirirsin."
+            );
         }
 
-        return "Merhaba! 🐱✨ Sana nasıl yardımcı olabilirim?";
 
+        return (
+            "Merhaba! 👋 " +
+            "Sana nasıl yardımcı olabilirim?"
+        );
     }
 
 
     if (
-        containsPhrase(text, howAreYou)
+        containsPhrase(
+            text,
+            howAreYou
+        )
     ) {
 
-        return "Gayet iyiyim! 😺✨ WhiskerHub hakkında konuşmaya hazırım. Sen nasılsın?";
-
+        return (
+            "Gayet iyiyim! ✨ " +
+            "WhiskerHub hakkında konuşmaya hazırım. " +
+            "Sen nasılsın?"
+        );
     }
 
 
     if (
-        containsPhrase(text, thanks)
+        containsPhrase(
+            text,
+            thanks
+        )
     ) {
 
-        return "Rica ederim! 🐱💚 Başka bir konuda yardıma ihtiyacın olursa buradayım.";
-
+        return (
+            "Rica ederim! ✨ " +
+            "Başka bir konuda yardıma ihtiyacın olursa buradayım."
+        );
     }
 
 
     if (
-        containsPhrase(text, goodbye)
+        containsPhrase(
+            text,
+            goodbye
+        )
     ) {
 
-        return "Görüşürüz! 👋🐱 WhiskerHub'da tekrar beklerim.";
-
+        return (
+            "Görüşürüz! 👋 " +
+            "Tekrar beklerim."
+        );
     }
 
 
     return null;
-
 }
 
 
 /* =========================================================
-   FALLBACK
+   BULAMADIĞINDA
    ========================================================= */
 
 function getFallbackResponse() {
@@ -804,13 +1026,13 @@ function getFallbackResponse() {
 
         "Hmm, bunu bilgi tabanımda bulamadım. 🐱",
 
-        "Bu konuda henüz bilgim yok gibi görünüyor. 🤔🐱",
+        "Bu konuda henüz bir bilgim yok gibi görünüyor. 🤔",
 
-        "Bununla ilgili Whisker AI bilgi tabanında yeterli bir bilgi bulamadım. 🐱",
+        "Bununla ilgili bilgi tabanında yeterli bir bilgi bulamadım.",
 
-        "Bu soruyu henüz cevaplayamıyorum. Başka bir şekilde sormayı deneyebilirsin! 💡"
-
+        "Bu soruyu henüz cevaplayamıyorum. Başka bir şekilde sormayı deneyebilirsin!"
     ];
+
 
     return responses[
         Math.floor(
@@ -818,34 +1040,50 @@ function getFallbackResponse() {
             responses.length
         )
     ];
-
 }
 
 
 /* =========================================================
-   TYPING INDICATOR
+   TYPING
    ========================================================= */
 
 function createTypingIndicator() {
 
     const message =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    message.className = "message ai";
+    message.className =
+        "message ai";
+
 
     message.innerHTML = `
+
         <div class="message-content">
 
             <div class="ai-avatar">
-                🐱
+
+                <img
+                    src="1.png"
+                    alt="Whisker AI"
+                >
+
             </div>
 
-            <div class="message-bubble">
 
-                <div class="typing">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            <div>
+
+                <div class="message-bubble">
+
+                    <div class="typing">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -853,100 +1091,128 @@ function createTypingIndicator() {
         </div>
     `;
 
-    return message;
 
+    return message;
 }
 
 
 /* =========================================================
-   CHAT TITLE
+   SOHBET BAŞLIĞI
    ========================================================= */
 
-function createChatTitle(message) {
+function createChatTitle(
+    message
+) {
 
     let title =
         message
-            .replace(/\s+/g, " ")
+            .replace(
+                /\s+/g,
+                " "
+            )
             .trim();
 
-    if (title.length > 30) {
+
+    if (
+        title.length > 30
+    ) {
 
         title =
-            title.substring(0, 30) +
+            title.substring(
+                0,
+                30
+            ) +
             "...";
-
     }
 
-    return title || "Yeni sohbet";
 
+    return (
+        title ||
+        "Yeni sohbet"
+    );
 }
 
 
 /* =========================================================
-   TEXT NORMALIZATION
+   NORMALIZE
    ========================================================= */
 
-function normalizeText(text) {
+function normalizeText(
+    text
+) {
 
     return text
-        .toLocaleLowerCase("tr-TR")
-        .replace(/[.,!?;:()[\]{}"'“”‘’]/g, " ")
-        .replace(/\s+/g, " ")
+        .toLocaleLowerCase(
+            "tr-TR"
+        )
+        .replace(
+            /[.,!?;:()[\]{}"'“”‘’]/g,
+            " "
+        )
+        .replace(
+            /\s+/g,
+            " "
+        )
         .trim();
-
 }
 
 
-function getMeaningfulWords(text) {
+/* =========================================================
+   ANLAMSIZ KELİMELER
+   ========================================================= */
 
-    const stopWords = new Set([
+function getMeaningfulWords(
+    text
+) {
 
-        "bir",
-        "bu",
-        "şu",
-        "ne",
-        "nedir",
-        "nasıl",
-        "nasil",
-        "mi",
-        "mı",
-        "mu",
-        "mü",
-        "ve",
-        "ile",
-        "için",
-        "icin",
-        "de",
-        "da",
-        "ben",
-        "sen",
-        "bana",
-        "bunu",
-        "hakkında",
-        "hakkinda",
-        "olan",
-        "olarak",
-        "the",
-        "a",
-        "an",
-        "is",
-        "what",
-        "how"
-    ]);
+    const stopWords =
+        new Set([
+
+            "bir",
+            "bu",
+            "şu",
+            "ne",
+            "nedir",
+            "nasıl",
+            "nasil",
+            "mi",
+            "mı",
+            "mu",
+            "mü",
+            "ve",
+            "ile",
+            "için",
+            "icin",
+            "de",
+            "da",
+            "ben",
+            "sen",
+            "bana",
+            "bunu",
+            "hakkında",
+            "hakkinda",
+            "olan",
+            "olarak",
+            "şey",
+            "şeyi",
+            "şeyler"
+        ]);
+
 
     return text
         .split(" ")
         .filter(
             word =>
                 word.length > 1 &&
-                !stopWords.has(word)
+                !stopWords.has(
+                    word
+                )
         );
-
 }
 
 
 /* =========================================================
-   PHRASE CHECK
+   PHRASE
    ========================================================= */
 
 function containsPhrase(
@@ -955,47 +1221,58 @@ function containsPhrase(
 ) {
 
     return phrases.some(
-        phrase =>
-            text === phrase ||
-            text.includes(
-                " " + phrase
-            ) ||
-            text.startsWith(
-                phrase + " "
-            )
+        phrase => {
+
+            return (
+                text === phrase ||
+
+                text.includes(
+                    " " + phrase
+                ) ||
+
+                text.startsWith(
+                    phrase + " "
+                )
+            );
+        }
     );
-
 }
 
 
 /* =========================================================
-   FORMAT AI TEXT
+   HTML FORMAT
    ========================================================= */
 
-function formatAIText(text) {
+function formatAIText(
+    text
+) {
 
-    return escapeHTML(text)
-        .replace(
-            /\n/g,
-            "<br>"
-        );
-
+    return escapeHTML(
+        text
+    ).replace(
+        /\n/g,
+        "<br>"
+    );
 }
 
 
 /* =========================================================
-   ESCAPE HTML
+   HTML ESCAPE
    ========================================================= */
 
-function escapeHTML(text) {
+function escapeHTML(
+    text
+) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    div.textContent = text;
+    div.textContent =
+        text;
 
     return div.innerHTML;
-
 }
 
 
@@ -1005,60 +1282,69 @@ function escapeHTML(text) {
 
 function scrollToBottom() {
 
-    requestAnimationFrame(() => {
+    requestAnimationFrame(
+        () => {
 
-        chatArea.scrollTo({
-            top: chatArea.scrollHeight,
-            behavior: "smooth"
-        });
+            chatArea.scrollTo({
 
-    });
+                top:
+                    chatArea.scrollHeight,
 
+                behavior:
+                    "smooth"
+            });
+        }
+    );
 }
 
 
 /* =========================================================
-   SLEEP
+   BEKLE
    ========================================================= */
 
 function sleep(ms) {
 
     return new Promise(
         resolve =>
-            setTimeout(resolve, ms)
+            setTimeout(
+                resolve,
+                ms
+            )
     );
-
 }
 
 
 /* =========================================================
-   TEXTAREA AUTO RESIZE
+   TEXTAREA BOYUTU
    ========================================================= */
 
 function autoResize() {
 
-    messageInput.style.height = "auto";
+    messageInput.style.height =
+        "auto";
 
     messageInput.style.height =
         Math.min(
             messageInput.scrollHeight,
-            150
-        ) + "px";
-
+            140
+        ) +
+        "px";
 }
 
 
 /* =========================================================
-   EVENTS
+   EVENTLER
    ========================================================= */
 
 function setupEvents() {
 
-    /* SEND */
+
+    /* GÖNDER */
 
     sendButton.addEventListener(
         "click",
-        () => sendMessage()
+        () =>
+            sendMessage()
     );
 
 
@@ -1069,16 +1355,15 @@ function setupEvents() {
         event => {
 
             if (
-                event.key === "Enter" &&
+                event.key ===
+                    "Enter" &&
                 !event.shiftKey
             ) {
 
                 event.preventDefault();
 
                 sendMessage();
-
             }
-
         }
     );
 
@@ -1091,12 +1376,13 @@ function setupEvents() {
     );
 
 
-    /* NEW CHAT */
+    /* YENİ SOHBET */
 
     newChatButton.addEventListener(
         "click",
         createNewChat
     );
+
 
     headerNewChat.addEventListener(
         "click",
@@ -1104,67 +1390,87 @@ function setupEvents() {
     );
 
 
-    /* SUGGESTIONS */
+    /* ÖNERİLER */
 
     document
-        .querySelectorAll(".suggestion")
-        .forEach(button => {
+        .querySelectorAll(
+            ".suggestion"
+        )
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    sendMessage(
-                        button.dataset.message
-                    );
+                        sendMessage(
+                            button.dataset
+                                .message
+                        );
+                    }
+                );
+            }
+        );
 
-                }
-            );
 
-        });
-
-
-    /* MOBILE SIDEBAR */
+    /* MOBİL MENÜ */
 
     menuButton.addEventListener(
         "click",
         openMobileSidebar
     );
 
+
     closeSidebar.addEventListener(
         "click",
         closeMobileSidebar
     );
+
 
     sidebarOverlay.addEventListener(
         "click",
         closeMobileSidebar
     );
 
+
+    /* MOBİL KLAVYE */
+
+    messageInput.addEventListener(
+        "focus",
+        () => {
+
+            setTimeout(
+                scrollToBottom,
+                250
+            );
+        }
+    );
 }
 
 
 /* =========================================================
-   MOBILE SIDEBAR
+   MOBİL SIDEBAR
    ========================================================= */
 
 function openMobileSidebar() {
 
-    sidebar.classList.add("open");
+    sidebar.classList.add(
+        "open"
+    );
 
     sidebarOverlay.classList.add(
         "visible"
     );
-
 }
 
 
 function closeMobileSidebar() {
 
-    sidebar.classList.remove("open");
+    sidebar.classList.remove(
+        "open"
+    );
 
     sidebarOverlay.classList.remove(
         "visible"
     );
-
 }
