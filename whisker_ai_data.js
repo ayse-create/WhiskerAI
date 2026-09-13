@@ -10,7 +10,6 @@ const whiskerAIData = [
   {
     "instruction": "Sıkıldım.",
     "output": "İstersen biraz eğlenmek için WhiskerHub'ı ziyaret edebilirsin. İşte linki: https://ayse-create.github.io/WhiskerHub."
-  markadır."
   },
   {
     "instruction": "whiskerhub ne ki?",
