@@ -1243,13 +1243,51 @@ function containsPhrase(
    HTML FORMAT
    ========================================================= */
 
-function formatAIText(
-    text
-) {
+function formatAIText(text) {
 
-    return escapeHTML(
-        text
-    ).replace(
+    let safeText =
+        escapeHTML(text);
+
+    const links = {
+        "https://ayse-create.github.io/WhiskerHub":
+            "🐾 WhiskerHub",
+
+        "https://ayse-create.github.io/WhiskerSearch":
+            "🔎 WhiskerSearch",
+
+        "https://ayse-create.github.io/WhiskerShop":
+            "🛒 WhiskerShop",
+
+        "https://ayse-create.github.io/WhiskerAI":
+            "🤖 WhiskerAI"
+    };
+
+    Object.entries(links).forEach(
+        ([url, title]) => {
+
+            const safeUrl =
+                escapeHTML(url);
+
+            const linkHTML = `
+                <a
+                    href="${safeUrl}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="ai-link"
+                >
+                    ${title}
+                </a>
+            `;
+
+            safeText =
+                safeText.replace(
+                    url,
+                    linkHTML
+                );
+        }
+    );
+
+    return safeText.replace(
         /\n/g,
         "<br>"
     );
