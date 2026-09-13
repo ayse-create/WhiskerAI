@@ -1393,4 +1393,146 @@ body {
     display: inline !important;
     text-align: left !important;
  }
+   /* =========================================================
+   FINAL MESSAGE SIZE FIX
+========================================================= */
+
+.message {
+    display: flex !important;
+    align-items: flex-start !important;
 }
+
+.message.ai {
+    justify-content: flex-start !important;
+}
+
+.message.user {
+    justify-content: flex-end !important;
+}
+
+
+/* İçerik sadece gerektiği kadar yer kaplasın */
+.message-content,
+.message.user .message-content {
+    display: flex !important;
+
+    width: max-content !important;
+    max-width: 78% !important;
+
+    flex: 0 0 auto !important;
+
+    align-items: flex-start !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    gap: 8px !important;
+}
+
+
+/* Avatar genişliği sabit */
+.ai-avatar {
+    flex: 0 0 32px !important;
+}
+
+
+/* Balon + kopyala butonunun bulunduğu alan */
+.message-content > div:last-child {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+
+    width: max-content !important;
+    max-width: calc(100vw - 100px) !important;
+
+    flex: 0 1 auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+/* ASIL BALON */
+.message-bubble {
+    display: block !important;
+
+    width: max-content !important;
+
+    max-width: 100% !important;
+
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    padding: 9px 13px !important;
+
+    box-sizing: border-box !important;
+
+    text-align: left !important;
+    text-align-last: left !important;
+
+    white-space: pre-wrap !important;
+
+    overflow-wrap: anywhere !important;
+}
+
+
+/* Kopyala da balonun genişliğini etkilemesin */
+.message-actions {
+    width: max-content !important;
+
+    max-width: 100% !important;
+
+    align-self: flex-start !important;
+
+    margin-top: 3px !important;
+    padding-left: 2px !important;
+}
+
+
+/* Kullanıcı mesajları sağda */
+.message.user .message-content {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:700px) {
+
+    .message-content,
+    .message.user .message-content {
+        width: max-content !important;
+        max-width: 90% !important;
+    }
+
+    .message-content > div:last-child {
+        max-width: calc(100vw - 65px) !important;
+    }
+
+    .message-bubble {
+        width: max-content !important;
+        max-width: 100% !important;
+
+        padding: 8px 11px !important;
+
+        text-align: left !important;
+        text-align-last: left !important;
+    }
+}
+
+
+@media (max-width:380px) {
+
+    .message-content,
+    .message.user .message-content {
+        max-width: 93% !important;
+    }
+
+    .message-content > div:last-child {
+        max-width: calc(100vw - 55px) !important;
+    }
+}
+
