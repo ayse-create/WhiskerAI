@@ -1354,4 +1354,43 @@ body {
         grid-template-columns:
             repeat(2,1fr);
     }
+/* =========================================================
+   MESAJ BALONLARI — SON DÜZELTME
+========================================================= */
+
+.message-content {
+    width: auto !important;
+    max-width: 78% !important;
+    flex: 0 1 auto !important;
+    align-items: flex-start !important;
+}
+
+.message-content > div:last-child {
+    width: auto !important;
+    max-width: 100% !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    text-align: left !important;
+}
+
+.message-bubble {
+    width: fit-content !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    display: block !important;
+
+    margin: 0 !important;
+
+    text-align: left !important;
+    text-align-last: left !important;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+ }
+
+.message-bubble a {
+    display: inline !important;
+    text-align: left !important;
+ }
 }
