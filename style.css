@@ -617,7 +617,7 @@ body {
 
     align-items: flex-start !important;
 
-    width: fit-content !important;
+    width: auto !important;
     max-width: 78% !important;
 
     min-width: 0 !important;
@@ -632,13 +632,12 @@ body {
     text-align: left !important;
 }
 
-
 /* =========================================================
    USER MESSAGE CONTENT
 ========================================================= */
 
 .message.user .message-content {
-    width: fit-content !important;
+    width: auto !important;
 
     max-width: 78% !important;
 
@@ -681,9 +680,9 @@ body {
 ========================================================= */
 
 .message-content > div:last-child {
-    display: inline-block !important;
+    display: block !important;
 
-    width: fit-content !important;
+    width: auto !important;
 
     max-width: 100% !important;
 
@@ -698,14 +697,15 @@ body {
 }
 
 
+
 /* =========================================================
    BALONCUK
 ========================================================= */
 
 .message-bubble {
-    display: inline-block !important;
+    display: table !important;
 
-    width: fit-content !important;
+    width: auto !important;
 
     max-width: 100% !important;
 
@@ -724,6 +724,7 @@ body {
     line-height: 1.48;
 
     text-align: left !important;
+    text-align-last: left !important;
 
     white-space: pre-wrap;
 
@@ -733,7 +734,6 @@ body {
 
     box-sizing: border-box;
 }
-
 
 /* =========================================================
    USER BUBBLE
