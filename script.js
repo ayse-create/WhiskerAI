@@ -1245,8 +1245,7 @@ function containsPhrase(
 
 function formatAIText(text) {
 
-    let safeText =
-        escapeHTML(text);
+    let safeText = escapeHTML(text);
 
     const links = {
         "https://ayse-create.github.io/WhiskerHub":
@@ -1262,30 +1261,19 @@ function formatAIText(text) {
             "🤖 WhiskerAI"
     };
 
-    Object.entries(links).forEach(
-        ([url, title]) => {
+    Object.keys(links).forEach(url => {
 
-            const safeUrl =
-                escapeHTML(url);
+        const title = links[url];
 
-            const linkHTML = `
-                <a
-                    href="${safeUrl}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="ai-link"
-                >
-                    ${title}
-                </a>
-            `;
-
-            safeText =
-                safeText.replace(
-                    url,
-                    linkHTML
-                );
-        }
-    );
+        safeText = safeText.replace(
+            url,
+            '<a class="ai-link" href="' +
+            url +
+            '" target="_blank" rel="noopener noreferrer">' +
+            title +
+            '</a>'
+        );
+    });
 
     return safeText.replace(
         /\n/g,
