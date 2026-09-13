@@ -158,7 +158,16 @@ body {
 
     cursor: pointer;
 }
+.ai-link {
+    color: #2563eb;
+    text-decoration: underline;
+    font-weight: 600;
+    cursor: pointer;
+}
 
+.ai-link:hover {
+    opacity: 0.8;
+}
 
 /* =========================================================
    NEW CHAT
